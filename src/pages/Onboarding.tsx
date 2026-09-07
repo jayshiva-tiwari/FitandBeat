@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ChevronRight, ArrowLeft, CheckCircle2, Activity } from 'lucide-react';
 import { cn } from '../utils/cn';
+import { markOnboardingComplete } from '../services/api';
+import { useAuth } from '../context/AuthContext';
 
 const STEPS = [
   {
@@ -37,6 +39,7 @@ export default function Onboarding() {
   const [selections, setSelections] = useState<Record<number, string | string[]>>({});
   const [isComplete, setIsComplete] = useState(false);
   const navigate = useNavigate();
+  const { updateUser } = useAuth();
 
   const handleSelect = (option: string) => {
     const isMultiple = STEPS[step].multiple;
@@ -52,11 +55,19 @@ export default function Onboarding() {
     }
   };
 
-  const handleNext = () => {
+  const handleNext = async () => {
     if (step < STEPS.length - 1) {
       setStep(step + 1);
     } else {
       setIsComplete(true);
+      
+      try {
+        const updatedUser = await markOnboardingComplete();
+        updateUser(updatedUser);
+      } catch (err) {
+        console.error("Failed to complete onboarding on server", err);
+      }
+
       setTimeout(() => {
         navigate('/dashboard');
       }, 2000);
