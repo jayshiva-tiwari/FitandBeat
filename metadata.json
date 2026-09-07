@@ -1,0 +1,6 @@
+{
+  "name": "FitandBeat",
+  "description": "A personalized fitness, sports and gamification platform for SIH 2026.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
