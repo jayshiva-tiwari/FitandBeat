@@ -60,15 +60,27 @@ export default function Auth() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col items-center justify-center p-6">
-      <div className="w-full max-w-md">
+    <div className="min-h-screen relative flex flex-col items-center justify-center p-6 overflow-hidden">
+      {/* Background Video */}
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        className="absolute inset-0 w-full h-full object-cover z-0"
+      >
+        <source src="/bg-video.mp4" type="video/mp4" />
+      </video>
+      <div className="absolute inset-0 bg-black/40 z-0"></div>
+
+      <div className="w-full max-w-md relative z-10">
         <div className="flex justify-center mb-8">
-          <div className="flex items-center gap-2 text-indigo-600 font-bold text-3xl">
+          <div className="flex items-center gap-2 text-white font-bold text-3xl">
             <Activity className="w-8 h-8" /> FitandBeat
           </div>
         </div>
 
-        <div className="bg-white p-8 rounded-3xl shadow-sm border border-slate-100">
+        <div className="bg-white/95 backdrop-blur-sm p-8 rounded-3xl shadow-xl border border-slate-100/50">
           <div className="flex bg-slate-100 p-1 rounded-xl mb-8">
             <button 
               onClick={() => setTab('login')}
