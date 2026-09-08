@@ -1,3 +1,4 @@
+"use client";
 import { MessageSquare, Heart, Share2, Users, UserPlus } from 'lucide-react';
 
 const POSTS = [

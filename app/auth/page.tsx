@@ -1,26 +1,27 @@
+"use client";
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useRouter, useSearchParams } from "next/navigation";
 import { Activity } from 'lucide-react';
 import { GoogleLogin } from '@react-oauth/google';
-import { authWithGoogle } from '../services/api';
-import { useAuth } from '../context/AuthContext';
-import { cn } from '../utils/cn';
+import { authWithGoogle } from '@/src/services/api';
+import { useAuth } from '@/src/context/AuthContext';
+import { cn } from '@/src/utils/cn';
 
 export default function Auth() {
-  const [searchParams] = useSearchParams();
-  const initialTab = searchParams.get('tab') === 'register' ? 'register' : 'login';
+  const searchParams = useSearchParams();
+  const initialTab = searchParams?.get('tab') === 'register' ? 'register' : 'login';
   const [tab, setTab] = useState(initialTab);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const navigate = useNavigate();
+  const navigate = useRouter();
   const { login, isAuthenticated, user } = useAuth();
 
   useEffect(() => {
     if (isAuthenticated && user) {
       if (user.isOnboardingComplete) {
-        navigate('/dashboard');
+        navigate.push('/dashboard');
       } else {
-        navigate('/onboarding');
+        navigate.push('/onboarding');
       }
     }
   }, [isAuthenticated, user, navigate]);
@@ -37,9 +38,9 @@ export default function Auth() {
       login(user);
       
       if (user.isOnboardingComplete) {
-        navigate('/dashboard');
+        navigate.push('/dashboard');
       } else {
-        navigate('/onboarding');
+        navigate.push('/onboarding');
       }
     } catch (err: any) {
       console.error(err);
@@ -52,9 +53,9 @@ export default function Auth() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (tab === 'register') {
-      navigate('/onboarding');
+      navigate.push('/onboarding');
     } else {
-      navigate('/dashboard');
+      navigate.push('/dashboard');
     }
   };
 

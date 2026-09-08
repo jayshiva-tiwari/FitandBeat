@@ -1,11 +1,16 @@
 import express from 'express';
-import { createServer as createViteServer } from 'vite';
 import { resolve } from 'path';
 import cookieParser from 'cookie-parser';
 import mongoose from 'mongoose';
+import next from 'next';
 import { verifyGoogleAuth, getCurrentUser, completeOnboarding, authMiddleware, logout } from './server/controllers/authController';
 
+const dev = process.env.NODE_ENV !== 'production';
+const nextApp = next({ dev });
+const handle = nextApp.getRequestHandler();
+
 async function createServer() {
+  await nextApp.prepare();
   const app = express();
   
   // Connect to MongoDB
@@ -21,7 +26,7 @@ async function createServer() {
     console.warn('MONGODB_URI is not set. Database operations will fail.');
   }
 
-  app.use(express.json());
+  app.use('/api/auth', express.json());
   app.use(cookieParser());
   
   // API routes
@@ -35,20 +40,10 @@ async function createServer() {
   app.put('/api/auth/onboarding', authMiddleware, completeOnboarding);
   app.post('/api/auth/logout', logout);
 
-  
-  // Vite integration for development
-  if (process.env.NODE_ENV !== 'production') {
-    const vite = await createViteServer({
-      server: { middlewareMode: true },
-      appType: 'spa'
-    });
-    app.use(vite.middlewares);
-  } else {
-    app.use(express.static(resolve('dist')));
-    app.get('*', (req, res) => {
-      res.sendFile(resolve('dist/index.html'));
-    });
-  }
+  // Next.js handles all other routes
+  app.all('*', (req, res) => {
+    return handle(req, res);
+  });
   
   const port = process.env.PORT || 3000;
   app.listen(port, () => {

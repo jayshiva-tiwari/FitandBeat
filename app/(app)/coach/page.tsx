@@ -1,6 +1,7 @@
+"use client";
 import { useState } from 'react';
 import { Send, Bot, User, Sparkles } from 'lucide-react';
-import { cn } from '../utils/cn';
+import { cn } from '@/src/utils/cn';
 
 const INITIAL_MSGS = [
   { role: 'assistant', content: 'Hi there! I am your FitandBeat AI Coach. How can I help you reach your fitness goals today?' }
@@ -10,19 +11,35 @@ export default function Coach() {
   const [messages, setMessages] = useState(INITIAL_MSGS);
   const [input, setInput] = useState('');
 
-  const handleSend = () => {
-    if (!input.trim()) return;
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleSend = async () => {
+    if (!input.trim() || isLoading) return;
     const newMsg = { role: 'user', content: input };
-    setMessages([...messages, newMsg]);
+    const updatedMessages = [...messages, newMsg];
+    setMessages(updatedMessages);
     setInput('');
-    
-    // Simulate AI reply
-    setTimeout(() => {
-      setMessages(prev => [...prev, { 
-        role: 'assistant', 
-        content: 'That sounds like a great idea! Based on your activity history, a 20-minute stretching session would be perfect for recovery today. Would you like me to generate a routine?' 
-      }]);
-    }, 1000);
+    setIsLoading(true);
+
+    try {
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages: updatedMessages.filter(m => m.role !== 'system') }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch response');
+      }
+
+      const data = await response.json();
+      setMessages(prev => [...prev, { role: 'assistant', content: data.text }]);
+    } catch (error) {
+      console.error(error);
+      setMessages(prev => [...prev, { role: 'assistant', content: "Sorry, I'm having trouble connecting to the server right now. Please try again later." }]);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -56,6 +73,21 @@ export default function Coach() {
           ))}
         </div>
         
+        {isLoading && (
+          <div className="px-6 pb-6">
+            <div className="flex gap-4 max-w-[85%]">
+              <div className="w-10 h-10 rounded-full flex items-center justify-center shrink-0 bg-indigo-100 text-indigo-600">
+                <Bot className="w-6 h-6" />
+              </div>
+              <div className="p-4 rounded-2xl bg-slate-100 text-slate-800 rounded-tl-sm flex items-center gap-2">
+                <div className="w-2 h-2 bg-slate-400 rounded-full animate-bounce"></div>
+                <div className="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                <div className="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: '0.4s' }}></div>
+              </div>
+            </div>
+          </div>
+        )}
+
         <div className="p-4 bg-white border-t border-slate-100">
           <div className="flex items-center gap-2 bg-slate-50 border border-slate-200 p-2 rounded-2xl focus-within:border-indigo-500 focus-within:ring-2 focus-within:ring-indigo-100 transition-all">
             <input 

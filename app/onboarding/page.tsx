@@ -1,9 +1,10 @@
+"use client";
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from "next/navigation";
 import { ChevronRight, ArrowLeft, CheckCircle2, Activity } from 'lucide-react';
-import { cn } from '../utils/cn';
-import { markOnboardingComplete } from '../services/api';
-import { useAuth } from '../context/AuthContext';
+import { cn } from '@/src/utils/cn';
+import { markOnboardingComplete } from '@/src/services/api';
+import { useAuth } from '@/src/context/AuthContext';
 
 const STEPS = [
   {
@@ -38,7 +39,7 @@ export default function Onboarding() {
   const [step, setStep] = useState(0);
   const [selections, setSelections] = useState<Record<number, string | string[]>>({});
   const [isComplete, setIsComplete] = useState(false);
-  const navigate = useNavigate();
+  const navigate = useRouter();
   const { updateUser } = useAuth();
 
   const handleSelect = (option: string) => {
@@ -69,7 +70,7 @@ export default function Onboarding() {
       }
 
       setTimeout(() => {
-        navigate('/dashboard');
+        navigate.push('/dashboard');
       }, 2000);
     }
   };

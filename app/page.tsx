@@ -1,4 +1,5 @@
-import { Link } from 'react-router-dom';
+"use client";
+import Link from "next/link";
 import { Activity, Target, Trophy, Users, BarChart } from 'lucide-react';
 export default function LandingPage() {
   return (
@@ -8,8 +9,8 @@ export default function LandingPage() {
           <Activity className="w-6 h-6" /> FitandBeat
         </div>
         <div className="flex gap-4">
-          <Link to="/auth" className="text-slate-600 font-medium hover:text-indigo-600 transition pt-2">Login</Link>
-          <Link to="/auth?tab=register" className="bg-indigo-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-indigo-700 transition">Sign Up</Link>
+          <Link href="/auth" className="text-slate-600 font-medium hover:text-indigo-600 transition pt-2">Login</Link>
+          <Link href="/auth?tab=register" className="bg-indigo-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-indigo-700 transition">Sign Up</Link>
         </div>
       </header>
       <main className="flex-1 flex flex-col">
@@ -21,10 +22,10 @@ export default function LandingPage() {
             Your personalized companion for fitness, sports and healthier everyday habits.
           </p>
           <div className="flex flex-col sm:flex-row gap-4">
-            <Link to="/auth?tab=register" className="bg-indigo-600 text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-indigo-700 transition shadow-lg shadow-indigo-200">
+            <Link href="/auth?tab=register" className="bg-indigo-600 text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-indigo-700 transition shadow-lg shadow-indigo-200">
               Get Started
             </Link>
-            <Link to="/dashboard" className="bg-white text-indigo-600 border-2 border-indigo-100 px-8 py-4 rounded-xl font-bold text-lg hover:border-indigo-200 hover:bg-indigo-50 transition">
+            <Link href="/dashboard" className="bg-white text-indigo-600 border-2 border-indigo-100 px-8 py-4 rounded-xl font-bold text-lg hover:border-indigo-200 hover:bg-indigo-50 transition">
               Explore Demo
             </Link>
           </div>

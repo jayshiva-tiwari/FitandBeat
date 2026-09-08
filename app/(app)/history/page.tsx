@@ -1,3 +1,4 @@
+"use client";
 import { Calendar, Clock, Flame, Activity } from 'lucide-react';
 
 const HISTORY = [

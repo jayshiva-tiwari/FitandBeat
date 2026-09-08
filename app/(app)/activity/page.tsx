@@ -1,6 +1,7 @@
+"use client";
 import { useState, useEffect } from 'react';
 import { Play, Pause, Square, Activity, Flame, MapPin } from 'lucide-react';
-import { cn } from '../utils/cn';
+import { cn } from '@/src/utils/cn';
 
 export default function ActivityTracker() {
   const [isActive, setIsActive] = useState(false);
@@ -8,7 +9,7 @@ export default function ActivityTracker() {
   const [time, setTime] = useState(0);
 
   useEffect(() => {
-    let interval = null;
+    let interval: any = null;
     if (isActive && !isPaused) {
       interval = setInterval(() => {
         setTime((time) => time + 1);

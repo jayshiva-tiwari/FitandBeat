@@ -1,5 +1,6 @@
+"use client";
 import { Sparkles, Calendar as CalendarIcon, Clock, Activity, CheckCircle2 } from 'lucide-react';
-import { cn } from '../utils/cn';
+import { cn } from '@/src/utils/cn';
 
 const PLAN = [
   { day: 'Monday', title: '25 min brisk walking', type: 'Cardio', duration: '25 min', completed: true },

@@ -41,7 +41,8 @@ export const getCurrentUser = async (req: Request, res: Response): Promise<void>
       isOnboardingComplete: user.isOnboardingComplete
     });
   } catch (error) {
-    res.status(500).json({ error: 'Server error' });
+    console.error('completeOnboarding error:', error);
+    res.status(500).json({ error: 'Server error', details: error.message });
   }
 };
 
@@ -66,7 +67,8 @@ export const completeOnboarding = async (req: Request, res: Response): Promise<v
       isOnboardingComplete: user.isOnboardingComplete
     });
   } catch (error) {
-    res.status(500).json({ error: 'Server error' });
+    console.error('completeOnboarding error:', error);
+    res.status(500).json({ error: 'Server error', details: error.message });
   }
 };
 
@@ -122,8 +124,8 @@ export const verifyGoogleAuth = async (req: Request, res: Response): Promise<voi
     
     res.cookie('auth_token', token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
+      secure: true,
+      sameSite: 'none',
       maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
     });
 
@@ -143,7 +145,7 @@ export const verifyGoogleAuth = async (req: Request, res: Response): Promise<voi
 };
 
 export const logout = (req: Request, res: Response): void => {
-  res.clearCookie('auth_token');
+  res.clearCookie('auth_token', { sameSite: 'none', secure: true });
   res.json({ success: true });
 };
 

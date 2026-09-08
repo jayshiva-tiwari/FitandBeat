@@ -1,3 +1,4 @@
+"use client";
 import { Target, Users, Trophy, Flame } from 'lucide-react';
 
 const CHALLENGES = [

@@ -1,5 +1,6 @@
+"use client";
 import { Trophy, Star, Users, MapPin, ChevronRight, Search } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import Link from "next/link";
 
 const SPORTS = [
   { name: 'Badminton', image: 'bg-blue-500', difficulty: 'Beginner', location: 'Indoor', users: '2.4k' },

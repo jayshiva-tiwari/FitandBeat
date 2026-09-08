@@ -45,7 +45,9 @@ export const markOnboardingComplete = async () => {
   });
 
   if (!response.ok) {
-    throw new Error('Failed to update onboarding status');
+    const errorData = await response.json();
+    console.error('onboarding error response:', errorData);
+    throw new Error(errorData.error || 'Failed to update onboarding status');
   }
 
   return response.json();

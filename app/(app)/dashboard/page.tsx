@@ -1,8 +1,11 @@
+"use client";
 import { PlayCircle, Target, Flame, TrendingUp, ChevronRight, Activity, Calendar, Trophy } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import Link from "next/link";
+import { useAuth } from "@/src/context/AuthContext";
 
 export default function Dashboard() {
-  const userName = 'Aarav';
+  const { user } = useAuth();
+  const userName = user?.name?.split(' ')[0] || 'User';
   
   return (
     <div className="flex flex-col gap-8 pb-10">
@@ -66,10 +69,10 @@ export default function Dashboard() {
               <h3 className="text-2xl font-bold">Try a 20-minute brisk walk today.</h3>
               <p className="text-indigo-100 max-w-md">Based on your recent activity, a light cardio session will help you hit your daily goal while maintaining recovery.</p>
               <div className="flex gap-3 mt-2">
-                <Link to="/activity" className="bg-white text-indigo-600 px-5 py-2.5 rounded-xl font-bold hover:bg-indigo-50 transition flex items-center gap-2">
+                <Link href="/activity" className="bg-white text-indigo-600 px-5 py-2.5 rounded-xl font-bold hover:bg-indigo-50 transition flex items-center gap-2">
                   <PlayCircle className="w-5 h-5" /> Start Activity
                 </Link>
-                <Link to="/plan" className="bg-white/20 hover:bg-white/30 text-white px-5 py-2.5 rounded-xl font-medium transition">
+                <Link href="/plan" className="bg-white/20 hover:bg-white/30 text-white px-5 py-2.5 rounded-xl font-medium transition">
                   View Full Plan
                 </Link>
               </div>
@@ -80,7 +83,7 @@ export default function Dashboard() {
           <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
             <div className="flex justify-between items-center mb-6">
               <h3 className="text-lg font-bold text-gray-900">Weekly Progress</h3>
-              <Link to="/analytics" className="text-sm text-indigo-600 font-medium hover:underline flex items-center gap-1">
+              <Link href="/analytics" className="text-sm text-indigo-600 font-medium hover:underline flex items-center gap-1">
                 Details <ChevronRight className="w-4 h-4" />
               </Link>
             </div>
@@ -107,17 +110,17 @@ export default function Dashboard() {
           {/* Quick Actions */}
           <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm flex flex-col gap-3">
              <h3 className="text-lg font-bold text-gray-900 mb-2">Quick Actions</h3>
-             <Link to="/activity" className="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-50 transition border border-gray-100">
+             <Link href="/activity" className="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-50 transition border border-gray-100">
                <div className="bg-blue-100 p-2 rounded-lg text-blue-600"><PlayCircle className="w-5 h-5" /></div>
                <div className="flex-1 font-medium text-gray-900">Log Activity</div>
                <ChevronRight className="w-5 h-5 text-gray-400" />
              </Link>
-             <Link to="/sports" className="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-50 transition border border-gray-100">
+             <Link href="/sports" className="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-50 transition border border-gray-100">
                <div className="bg-orange-100 p-2 rounded-lg text-orange-600"><Trophy className="w-5 h-5" /></div>
                <div className="flex-1 font-medium text-gray-900">Explore Sports</div>
                <ChevronRight className="w-5 h-5 text-gray-400" />
              </Link>
-             <Link to="/challenges" className="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-50 transition border border-gray-100">
+             <Link href="/challenges" className="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-50 transition border border-gray-100">
                <div className="bg-green-100 p-2 rounded-lg text-green-600"><Target className="w-5 h-5" /></div>
                <div className="flex-1 font-medium text-gray-900">Join Challenge</div>
                <ChevronRight className="w-5 h-5 text-gray-400" />

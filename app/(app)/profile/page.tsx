@@ -1,6 +1,9 @@
+"use client";
 import { User, Award, Flame, Target } from 'lucide-react';
+import { useAuth } from '@/src/context/AuthContext';
 
 export default function Profile() {
+  const { user } = useAuth();
   return (
     <div className="flex flex-col gap-8 pb-10 max-w-3xl mx-auto">
       <div className="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm flex flex-col md:flex-row items-center md:items-start gap-8 text-center md:text-left relative overflow-hidden">
@@ -13,7 +16,7 @@ export default function Profile() {
         </div>
 
         <div className="relative z-10 md:mt-20 flex-1">
-          <h1 className="text-3xl font-extrabold text-slate-900">Aarav Sharma</h1>
+          <h1 className="text-3xl font-extrabold text-slate-900">{user?.name || 'User'}</h1>
           <p className="text-slate-500 font-medium text-lg mb-4">Level 3 • Active Explorer</p>
           
           <div className="flex flex-wrap justify-center md:justify-start gap-3">
