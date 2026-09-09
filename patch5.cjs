@@ -1,4 +1,5 @@
-import { NextRequest, NextResponse } from "next/server";
+const fs = require('fs');
+const code = `import { NextRequest, NextResponse } from "next/server";
 import { GoogleGenAI } from "@google/genai";
 
 const ai = new GoogleGenAI({
@@ -42,3 +43,5 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: error.message || "Failed to generate response" }, { status: 500 });
   }
 }
+`;
+fs.writeFileSync('app/api/chat/route.ts', code);
