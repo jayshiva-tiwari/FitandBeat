@@ -1,17 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
 import { GoogleGenAI } from "@google/genai";
 
-const ai = new GoogleGenAI({
-  apiKey: process.env.GEMINI_API_KEY,
-  httpOptions: {
-    headers: {
-      'User-Agent': 'aistudio-build',
-    }
-  }
-});
-
 export async function POST(req: NextRequest) {
+  const apiKey = process.env.GEMINI_API_KEY;
+  if (!apiKey || apiKey === "MY_GEMINI_API_KEY") {
+    console.error("Missing or invalid GEMINI_API_KEY");
+    return NextResponse.json({ error: "API key is not configured correctly on the server." }, { status: 500 });
+  }
+
   try {
+    const ai = new GoogleGenAI({ apiKey });
+    
     const { messages } = await req.json();
     if (!messages || !Array.isArray(messages)) {
       return NextResponse.json({ error: "Invalid messages format" }, { status: 400 });
@@ -29,16 +28,25 @@ export async function POST(req: NextRequest) {
     }
 
     const response = await ai.models.generateContent({
-      model: "gemini-3.8-flash",
+      model: "gemini-1.5-flash",
       contents: formattedContents,
       config: {
-        systemInstruction: systemInstruction
+        systemInstruction: systemInstruction,
       }
     });
 
     return NextResponse.json({ text: response.text });
   } catch (error: any) {
     console.error("Gemini API Error:", error);
-    return NextResponse.json({ error: error.message || "Failed to generate response" }, { status: 500 });
+    
+    // Safely extract error message
+    let errorMessage = "Failed to generate response";
+    if (error instanceof Error) {
+      errorMessage = error.message;
+    } else if (typeof error === 'object' && error !== null && 'message' in error) {
+      errorMessage = String(error.message);
+    }
+    
+    return NextResponse.json({ error: errorMessage }, { status: 500 });
   }
 }
