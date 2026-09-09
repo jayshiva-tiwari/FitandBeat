@@ -106,7 +106,6 @@ export default function Auth() {
              <GoogleLogin
                 onSuccess={handleGoogleSuccess}
                 onError={() => setError('Google Login Failed')}
-                useOneTap
                 use_fedcm_for_prompt={false}
                 theme="outline"
                 shape="rectangular"

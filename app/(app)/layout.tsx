@@ -16,8 +16,8 @@ const NAV_ITEMS = [
   { name: 'Track', path: '/activity', icon: PlayCircle },
   { name: 'History', path: '/history', icon: Activity },
   { name: 'Sports', path: '/sports', icon: Trophy },
+          { name: 'Coach', path: '/coach', icon: MessageSquare },
   { name: 'Challenges', path: '/challenges', icon: Trophy },
-  { name: 'Community', path: '/community', icon: Users },
   { name: 'Coach', path: '/coach', icon: MessageSquare },
   { name: 'Analytics', path: '/analytics', icon: BarChart2 },
   { name: 'Profile', path: '/profile', icon: User },
@@ -70,7 +70,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           { name: 'Home', path: '/dashboard', icon: Home },
           { name: 'Track', path: '/activity', icon: PlayCircle },
           { name: 'Sports', path: '/sports', icon: Trophy },
-          { name: 'Community', path: '/community', icon: Users },
+          { name: 'Coach', path: '/coach', icon: MessageSquare },
           { name: 'Profile', path: '/profile', icon: User },
         ].map((item) => (
           <Link key={item.path} href={item.path} className={cn('flex flex-col items-center gap-1 p-2 w-16 transition-colors', pathname === item.path ? 'text-indigo-600' : 'text-gray-500 hover:text-gray-900')}>
