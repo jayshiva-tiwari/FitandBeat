@@ -1,13 +1,9 @@
 "use client";
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { useAuth } from '@/src/../src/context/AuthContext';
-import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
-import { 
-  Home, Activity, Target, Trophy, Users, BarChart2, 
-  User, MessageSquare, PlayCircle 
-} from 'lucide-react';
+import { useRouter, usePathname } from 'next/navigation';
+import Link from 'next/link';
+import { useAuth } from '@/src/context/AuthContext';
+import { Activity, Home, Target, Trophy, BarChart2, User, MessageSquare, PlayCircle } from 'lucide-react';
 import { cn } from '@/src/utils/cn';
 
 const NAV_ITEMS = [
@@ -16,9 +12,8 @@ const NAV_ITEMS = [
   { name: 'Track', path: '/activity', icon: PlayCircle },
   { name: 'History', path: '/history', icon: Activity },
   { name: 'Sports', path: '/sports', icon: Trophy },
-          { name: 'Coach', path: '/coach', icon: MessageSquare },
-  { name: 'Challenges', path: '/challenges', icon: Trophy },
   { name: 'Coach', path: '/coach', icon: MessageSquare },
+  { name: 'Challenges', path: '/challenges', icon: Trophy },
   { name: 'Analytics', path: '/analytics', icon: BarChart2 },
   { name: 'Profile', path: '/profile', icon: User },
 ];
@@ -53,9 +48,10 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           ))}
         </nav>
       </aside>
+
       <main className="flex-1 flex flex-col min-w-0 overflow-hidden">
-        <header className="md:hidden h-16 flex items-center px-4 bg-white border-b border-gray-200 shrink-0 justify-between">
-           <div className="flex items-center gap-2 text-indigo-600 font-bold text-lg">
+        <header className="md:hidden h-16 flex items-center px-4 bg-white border-b border-gray-200 shrink-0 justify-between"> 
+          <div className="flex items-center gap-2 text-indigo-600 font-bold text-lg">
             <Activity className="w-5 h-5" /> FitandBeat
           </div>
         </header>
@@ -65,6 +61,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           </div>
         </div>
       </main>
+
       <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 flex justify-around items-center h-16 z-50">
         {[
           { name: 'Home', path: '/dashboard', icon: Home },

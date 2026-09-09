@@ -1,15 +1,22 @@
-import mongoose from 'mongoose';
-import { User } from './server/models/User.js';
+import { GoogleGenAI } from "@google/genai";
 
-(async () => {
+async function test() {
+  const apiKey = "AIzaSy_dummy_key_just_to_see_validation";
+  const ai = new GoogleGenAI({ apiKey });
+  
   try {
-    await mongoose.connect(process.env.MONGODB_URI as string);
-    console.log("Connected.");
-    const user = await User.findOne({});
-    console.log("User:", user);
-    process.exit(0);
-  } catch (err) {
-    console.error("Err:", err);
-    process.exit(1);
+    const formattedContents = [
+      { role: 'user', parts: [{ text: "Hello" }] }
+    ];
+    await ai.models.generateContent({
+      model: "gemini-1.5-flash",
+      contents: formattedContents,
+      config: {
+        systemInstruction: "You are a bot"
+      }
+    });
+  } catch(e) {
+    console.log("Error:", e.message);
   }
-})();
+}
+test();
