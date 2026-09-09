@@ -5,7 +5,7 @@ export async function POST(req: NextRequest) {
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey || apiKey === "MY_GEMINI_API_KEY") {
     console.error("Missing or invalid GEMINI_API_KEY");
-    return NextResponse.json({ error: "API key is not configured correctly on the server." }, { status: 500 });
+    return NextResponse.json({ error: "API key missing! If in AI Studio: Add GEMINI_API_KEY to your Secrets/Environment settings. If on Render: Go to Environment tab, add GEMINI_API_KEY, and redeploy." }, { status: 500 });
   }
 
   try {
