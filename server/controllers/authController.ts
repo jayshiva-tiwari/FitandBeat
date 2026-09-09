@@ -3,7 +3,7 @@ import { OAuth2Client } from 'google-auth-library';
 import jwt from 'jsonwebtoken';
 import { User, IUser } from '../models/User';
 
-const GOOGLE_CLIENT_ID = '229925102759-7i5onko9abood1l0r1iih5738fvct6a1.apps.googleusercontent.com';
+const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID || '229925102759-7i5onko9abood1l0r1iih5738fvct6a1.apps.googleusercontent.com';
 const googleClient = new OAuth2Client(GOOGLE_CLIENT_ID);
 const JWT_SECRET = process.env.JWT_SECRET || 'fallback_secret_for_development';
 
@@ -124,8 +124,8 @@ export const verifyGoogleAuth = async (req: Request, res: Response): Promise<voi
     
     res.cookie('auth_token', token, {
       httpOnly: true,
-      secure: true,
-      sameSite: 'none',
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
       maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
     });
 
@@ -145,7 +145,7 @@ export const verifyGoogleAuth = async (req: Request, res: Response): Promise<voi
 };
 
 export const logout = (req: Request, res: Response): void => {
-  res.clearCookie('auth_token', { sameSite: 'none', secure: true });
+  res.clearCookie('auth_token', { sameSite: 'lax', secure: process.env.NODE_ENV === 'production' });
   res.json({ success: true });
 };
 
