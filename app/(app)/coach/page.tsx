@@ -29,14 +29,15 @@ export default function Coach() {
       });
 
       if (!response.ok) {
-        throw new Error('Failed to fetch response');
+        const errData = await response.json();
+        throw new Error(errData.error || 'Failed to fetch response');
       }
 
       const data = await response.json();
       setMessages(prev => [...prev, { role: 'assistant', content: data.text }]);
     } catch (error) {
       console.error(error);
-      setMessages(prev => [...prev, { role: 'assistant', content: "Sorry, I'm having trouble connecting to the server right now. Please try again later." }]);
+      setMessages(prev => [...prev, { role: 'assistant', content: `Error: ${error.message || 'Unknown error'}. Please try again.` }]);
     } finally {
       setIsLoading(false);
     }
