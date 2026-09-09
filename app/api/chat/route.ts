@@ -18,10 +18,16 @@ export async function POST(req: NextRequest) {
     
     const systemInstruction = "You are a friendly, encouraging, and knowledgeable AI fitness coach for the FitandBeat app. Help users reach their fitness goals, suggest exercises, answer health-related questions, and provide motivation. Keep your responses concise and engaging.";
     
-    const formattedContents = messages.map((msg: any) => ({
+    let formattedContents = messages.map((msg: any) => ({
       role: msg.role === 'user' ? 'user' : 'model',
       parts: [{ text: msg.content }]
     }));
+    
+    // The Gemini API requires the conversation history to start with a 'user' message.
+    // If the frontend sends the initial 'assistant' greeting as the first message, we must remove it.
+    if (formattedContents.length > 0 && formattedContents[0].role === 'model') {
+      formattedContents.shift();
+    }
     
     const response = await ai.models.generateContent({
       model: "gemini-1.5-flash",
